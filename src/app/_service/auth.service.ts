@@ -13,7 +13,8 @@ import { AuthResponse } from '../_environment/authResponse';
 })
 
 export class AuthService {
-  private apiUrl = `/auth`;
+  
+  private apiUrl = 'http://localhost:8081/api/auth';
 
   private currentUserSubject = new BehaviorSubject<User | null>(
     this.getUserFromStorage()
