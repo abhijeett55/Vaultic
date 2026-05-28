@@ -5,6 +5,7 @@ import { FileService } from '../../_service/file';
 import { FileMetaData } from '../../_environment/filemetaData';
 import { FormsModule } from '@angular/forms';
 import { HttpEventType } from '@angular/common/http';
+import { AuthService } from '../../_service/auth.service';
 
 @Component({
   selector: 'app-uploads',
@@ -21,11 +22,17 @@ export class Uploads implements OnInit {
   uploadProgressMap: { [key: string]: number } = {};
   isDragging = false;
 
-  constructor(private fileService: FileService) {}
+  
+  constructor(private fileService: FileService,
+    private authService: AuthService) {}
+
+  
 
   ngOnInit() {
     this.loadFiles();
   }
+
+
 
   
   onFileSelected(event: any) {
@@ -49,10 +56,20 @@ export class Uploads implements OnInit {
 
   
   upload() {
+    const currentUser = this.authService.getCurrentUser();
+      if (!currentUser?.id) {
+          console.error('User not logged in');
+          return;
+      }
     this.selectedFiles.forEach(file => {
 
-      this.fileService.uploadFile(file, this.tags).subscribe({
+      
+
+      this.fileService.uploadFile(file, this.tags, currentUser.id ?? '').subscribe({
         next: (event) => {
+
+
+          
 
           if (event.type === HttpEventType.UploadProgress && event.total) {
             this.uploadProgressMap[file.name] =

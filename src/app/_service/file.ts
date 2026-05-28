@@ -13,10 +13,11 @@ export class FileService {
 
   constructor(private http: HttpClient) {}
 
-  uploadFile(file: File, tags: string): Observable<HttpEvent<FileMetaData>> {
+  uploadFile(file: File, tags: string, userId: string): Observable<HttpEvent<FileMetaData>> {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("tags", tags || '');
+    formData.append("userId", userId);
 
     return this.http.post<FileMetaData>(`${this.api}/upload`, formData, {
       reportProgress: true,
