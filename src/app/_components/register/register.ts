@@ -16,10 +16,12 @@ export class Register {
 
   constructor(private router: Router, private authService: AuthService) { }
 
+    creationDate: string = new Date().toISOString().split('T')[0];
+    
     onRegister(form: NgForm) {
     if(form.invalid) return;
 
-    const { name, email, password, confirmPassword } = form.value;
+    const { name, email, password, confirmPassword, createdDate } = form.value;
 
     if(password !== confirmPassword) {
       console.error('Password do not match');
@@ -27,7 +29,7 @@ export class Register {
     }
 
 
-    this.authService.register(name, email, password).subscribe({
+    this.authService.register(name, email, password, createdDate).subscribe({
       next: (res) => {
         console.log('Registration success', res);
         this.authService.saveUserData(res.token , res.user);

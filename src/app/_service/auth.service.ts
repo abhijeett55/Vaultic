@@ -25,8 +25,8 @@ export class AuthService {
     constructor(@Inject(PLATFORM_ID) private platformId: Object,
     private http: HttpClient) {}
 
-      register(name: string, email: string, password: string): Observable<AuthResponse> {
-      return this.http.post<AuthResponse>(`${this.apiUrl}/register`, { name, email, password })
+      register(name: string, email: string, password: string, createdDate: string): Observable<AuthResponse> {
+      return this.http.post<AuthResponse>(`${this.apiUrl}/register`, { name, email, password, createdDate })
         .pipe(
           map((response) => {
             this.saveUserData(response.token, response.user);

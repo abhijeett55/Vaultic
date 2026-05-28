@@ -9,8 +9,8 @@
     <div class="user-info">
       <div class="avatar-placeholder">👤</div>
       <div class="user-details">
-        <h2 class="user-name">genda</h2>
-        <p class="user-email">gendasaur&#64;gmail.com</p>
+        <h2 class="user-name">{{ userName }}</h2>
+        <p class="user-email">{{ userEmail }}</p>
       </div>
     </div>
 
@@ -18,7 +18,7 @@
     <div class="account-stats">
       <div class="stat-item">
         <span class="stat-label">Account Created</span>
-        <span class="stat-value">March 15, 2026</span>
+        <span class="stat-value">{{ createdDate}}</span>
       </div>
       <div class="stat-item">
         <span class="stat-label">Last Updated</span>
@@ -37,8 +37,8 @@
   <div class="debug-section">
     <h3>Debug - Profile Data</h3>
     <pre class="debug-data">
-      Name: "genda"
-      Email: "gendasaur&#64;gmail.com"
+      Name: {{ userName }}
+      Email: {{ userEmail }}
     </pre>
   </div>
 </div>

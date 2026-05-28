@@ -9,10 +9,10 @@
     <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
 
       <label>Name</label>
-      <input type="text" name="name" placeholder="Company Name" ngModel required />
+      <input type="text" name="name" placeholder="Name" ngModel required />
 
       <label>E-mail</label>
-      <input type="email" name="email" placeholder="companyname@domain.com" ngModel required />
+      <input type="email" name="email" placeholder="individual@domain.com" ngModel required />
 
       <label>Password</label>
       <input type="password" name="password" placeholder="Password" ngModel required minlength="6" />
@@ -20,9 +20,13 @@
       <label>Confirm Password</label>
       <input type="password" name="confirmPassword" placeholder="Confirm Password" ngModel required />
 
+      <input type = "hidden" name = "createdDate" [ngModel] = "creationDate" />
+
       <button type="submit" class="login-btn" [disabled]="registerForm.invalid">
         Create account
       </button>
+
+
 
     </form>
 

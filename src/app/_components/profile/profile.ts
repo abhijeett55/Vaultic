@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../_service/auth.service';
+
 @Component({
   selector: 'app-profile',
   standalone:true,
@@ -8,5 +10,20 @@ import { RouterModule } from '@angular/router';
   styleUrl: './profile.css',
 })
 export class Profile {
+
+  userName: string = '';
+  userEmail: string = '';
+  createdDate: string = '';
+
+  constructor(private authService: AuthService) { }
+
+  ngOnInit(): void {
+    const user = this.authService.getCurrentUser();
+    if(user) {
+      this.userName = user.name;
+      this.userEmail = user.email;
+      this.createdDate = user.createdDate || '';
+    }
+  }
 
 }
