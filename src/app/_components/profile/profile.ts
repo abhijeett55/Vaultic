@@ -21,7 +21,6 @@ export class Profile {
 
     this.authService.currentUser$.subscribe(user => {
       if(user) {
-        console.log(user);
         this.userName = user.name;
         this.userEmail = user.email;
         this.createdDate = user.createdDate || '';

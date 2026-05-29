@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 })
 export class Register {
 
+  showPassword: boolean = false;
+
   constructor(private router: Router, private authService: AuthService) { }
 
     creationDate: string = new Date().toISOString().split('T')[0];
@@ -40,5 +42,9 @@ export class Register {
         alert(err.error?.message || "Registration failed");
       }
     });
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }
