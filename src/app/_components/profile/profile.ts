@@ -18,12 +18,14 @@ export class Profile {
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    const user = this.authService.getCurrentUser();
-    if(user) {
-      this.userName = user.name;
-      this.userEmail = user.email;
-      this.createdDate = user.createdDate || '';
-    }
-  }
 
+    this.authService.currentUser$.subscribe(user => {
+      if(user) {
+        console.log(user);
+        this.userName = user.name;
+        this.userEmail = user.email;
+        this.createdDate = user.createdDate || '';
+      }
+    });
+  }
 }

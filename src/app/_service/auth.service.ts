@@ -16,20 +16,30 @@ export class AuthService {
   
   private apiUrl = 'http://localhost:8081/api/auth';
 
-  private currentUserSubject = new BehaviorSubject<User | null>(
-    this.getUserFromStorage()
-  );
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
 
   public currentUser$ = this.currentUserSubject.asObservable();
 
-    constructor(@Inject(PLATFORM_ID) private platformId: Object,
-    private http: HttpClient) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,
+    private http: HttpClient) {
+
+      if(isPlatformBrowser(this.platformId)) {
+        const user = localStorage.getItem('user');
+
+
+        if(user) {
+          this.currentUserSubject.next(JSON.parse(user));
+        }
+      }
+    }
 
       register(name: string, email: string, password: string, createdDate: string): Observable<AuthResponse> {
       return this.http.post<AuthResponse>(`${this.apiUrl}/register`, { name, email, password, createdDate })
         .pipe(
           map((response) => {
-            this.saveUserData(response.token, response.user);
+            this.saveUserData(
+              response.token,
+              response.user);
             return response;
           })
         );
@@ -74,14 +84,6 @@ export class AuthService {
   
   getCurrentUser(): User | null {
     return this.currentUserSubject.value;
-  }
-
-  private getUserFromStorage(): User | null {
-    if (isPlatformBrowser(this.platformId)) {
-      const user = localStorage.getItem('user');
-      return user ? JSON.parse(user) : null;
-    }
-    return null;
   }
 
   
