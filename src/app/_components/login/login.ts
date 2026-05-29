@@ -13,6 +13,9 @@ import { AuthService } from '../../_service/auth.service';
   styleUrl: './login.css',
 })
 export class Login {
+
+  showPassword: boolean = false;
+
   constructor(private authService: AuthService, private router: Router ) { }
   onLogin(form: NgForm) {
     if(form.invalid) return;
@@ -28,5 +31,9 @@ export class Login {
       console.error('Login failed', err);
       }
     });
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }

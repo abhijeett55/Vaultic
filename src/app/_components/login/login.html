@@ -20,14 +20,32 @@
       />
 
       <label>Password</label>
-      <input
-        type="password"
+
+      <div class="password-container">
+
+        <input
+        [type]="showPassword ? 'text' : 'password'"
         name="password"
         placeholder="Password"
         ngModel
         required
         minlength="6"
       />
+
+      <button
+      type="button"
+      class="toggle-btn"
+      (click)="togglePassword()"
+      >
+
+      {{ showPassword ? 'Hide' : 'Show'}}
+    </button>
+
+
+
+      </div>
+
+      
 
       <button
         type="submit"
