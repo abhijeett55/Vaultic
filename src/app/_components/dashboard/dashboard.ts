@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
+import { AuthService } from '../../_service/auth.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -10,5 +11,25 @@ import { Footer } from '../footer/footer';
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
+
+  constructor(private authService: AuthService, private router: Router) {
+
+  }
+
+  goToDashboard() {
+    if(this.authService.isLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  uploadFiles() {
+    if(this.authService.isLoggedIn()) {
+      this.router.navigate(['/uploadFiles']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
   
 }
