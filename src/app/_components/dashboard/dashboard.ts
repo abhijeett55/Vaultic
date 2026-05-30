@@ -18,7 +18,7 @@ export class Dashboard {
 
   goToDashboard() {
     if(this.authService.isLoggedIn()) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/home']);
     } else {
       this.router.navigate(['/login']);
     }

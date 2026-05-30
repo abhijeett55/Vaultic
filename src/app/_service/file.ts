@@ -25,11 +25,13 @@ export class FileService {
     });
   }
 
-  getFiles(): Observable<FileMetaData[]> {
-    return this.http.get<FileMetaData[]>(this.api);
+  getFilesByUser(userId: string): Observable<FileMetaData[]> {
+    return this.http.get<FileMetaData[]>(`${this.api}/user/${userId}`);
   }
 
-  deleteFile(id: number) {
-    return this.http.delete(`${this.api}/${id}`);
+  deleteFile(id: number, userId: string) {
+    return this.http.delete(
+      `${this.api}/${id}?userId=${userId}`
+    );
   }
 }

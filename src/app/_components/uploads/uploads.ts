@@ -42,11 +42,12 @@ export class Uploads implements OnInit {
 
   
   delete(id: number) {
-    if(!id) {
-      console.warn("Invalid ID, skipping delete");
+      const currentUser = this.authService.getCurrentUser();
+    if(!currentUser || !currentUser.id) {
+      console.error('User not logged in');
       return;
     }
-    this.fileService.deleteFile(id).subscribe({
+    this.fileService.deleteFile(id, currentUser.id).subscribe({
       next: () => {
         this.uploadedFiles = this.uploadedFiles.filter(f => f.id !== id);
       },
@@ -90,7 +91,15 @@ export class Uploads implements OnInit {
 
   
   loadFiles() {
-    this.fileService.getFiles().subscribe({
+
+      const currentUser =
+      this.authService.getCurrentUser();
+
+      if (!currentUser?.id) {
+        return;
+      }
+
+    this.fileService.getFilesByUser(currentUser.id).subscribe({
       next: (res) => {
         this.uploadedFiles = res;
       },
