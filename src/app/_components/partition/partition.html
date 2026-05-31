@@ -1,58 +1,120 @@
 <div class="partitions-container">
-  <!-- Header -->
+
   <div class="partitions-header">
     <h1 class="page-title">Storage Partitions</h1>
+
     <p class="description">
       Organize your files into separate storage partitions with individual quotas.
       Think of them as separate drives for different purposes.
     </p>
   </div>
 
-  <!-- Partitions List -->
   <div class="partitions-grid">
-    <!-- Personal Partition -->
-    <div class="partition-card">
-      <div class="card-header">
-        <div class="partition-icon">📁</div>
-        <div>
-          <h2 class="partition-name">Personal</h2>
-          <span class="status-badge healthy">Healthy</span>
-        </div>
-      </div>
-      <div class="partition-details">
-        <div class="usage-info">
-          <span class="usage-value">0 B of 5.0 GB used</span>
-          <span class="file-count">• 0 files</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 0%"></div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Work Partition -->
-    <div class="partition-card">
-      <div class="card-header">
-        <div class="partition-icon">💼</div>
-        <div>
-          <h2 class="partition-name">Work</h2>
-          <span class="status-badge healthy">Healthy</span>
+    @for(partition of partitions; track partition.name; let i = $index){
+
+      <div class="partition-card">
+
+        <div class="card-header">
+
+          <div class="partition-icon">
+            {{ partition.icon }}
+          </div>
+
+          <div class="card-title">
+            <h2 class="partition-name">
+              {{ partition.name }}
+            </h2>
+
+            <span class="status-badge">
+              {{ partition.status }}
+            </span>
+          </div>
+
         </div>
+
+        <div class="partition-details">
+
+          <div class="usage-info">
+
+            <span>
+              {{ partition.usedSpace }}
+              of
+              {{ partition.totalSpace }}
+              used
+            </span>
+
+            <span>
+              • {{ partition.fileCount }} files
+            </span>
+
+          </div>
+
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="partition.percentage">
+            </div>
+          </div>
+
+        </div>
+
+        <button
+          class="delete-btn"
+          (click)="deletePartition(i)">
+          Delete
+        </button>
+
       </div>
-      <div class="partition-details">
-        <div class="usage-info">
-          <span class="usage-value">0 B of 5.0 GB used</span>
-          <span class="file-count">• 1 file</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 0%"></div>
-        </div>
-      </div>
-    </div>
+
+    }
+
   </div>
 
-  <!-- Optional: Add New Partition Button -->
-  <button class="add-partition-btn">
-    <span class="btn-icon">+</span> New Partition
+  <button
+    class="add-partition-btn"
+    (click)="openPartitionForm()">
+
+    <span class="btn-icon">+</span>
+    New Partition
+
   </button>
+
+  @if(showForm){
+
+    <div class="partition-form">
+
+      <h3>Create Partition</h3>
+
+      <input
+        type="text"
+        placeholder="Partition Name"
+        [(ngModel)]="newPartitionName">
+
+      <input
+        type="text"
+        placeholder="Icon (📁 💼 🎵 📷)"
+        [(ngModel)]="newPartitionIcon">
+
+      <select [(ngModel)]="newPartitionStatus">
+        <option>Healthy</option>
+        <option>Warning</option>
+        <option>Critical</option>
+      </select>
+
+      <input
+        type="text"
+        placeholder="Total Size (5 GB)"
+        [(ngModel)]="newPartitionSize">
+
+      <button
+        class="create-btn"
+        (click)="addPartition()">
+        Create Partition
+      </button>
+
+    </div>
+
+  }
+
 </div>

@@ -12,7 +12,7 @@ import { Trash } from './_components/trash/trash';
 import { Profile } from './_components/profile/profile';
 import { Starred } from './_components/starred/starred';
 import { Settings } from './_components/settings/settings';
-import { Partition } from './_components/partition/partition';
+import { PartitionSpace } from './_components/partition/partition';
 
 export const routes: Routes = [
   { path: '', component: Login },
@@ -21,7 +21,7 @@ export const routes: Routes = [
     component: Home,
     children: [
       { path: 'files', component: Files },
-      { path: 'partition', component: Partition },
+      { path: 'partition', component: PartitionSpace },
       { path: 'uploads', component: Uploads },
       { path: 'insights', component: Insights },
       { path: 'starred', component: Starred },
