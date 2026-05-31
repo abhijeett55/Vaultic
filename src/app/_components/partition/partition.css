@@ -154,15 +154,45 @@
   width: 100%;
   border: none;
   border-radius: 12px;
-  padding: .75rem;
+  padding: 0.75rem;
   cursor: pointer;
-  background: #fee2e2;
-  color: #dc2626;
+  background: #ef4444;
+  color: white;
   font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .delete-btn:hover {
-  background: #fecaca;
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+.delete-btn:active {
+  transform: translateY(0);
+}
+
+.add-btn {
+  margin-top: 1rem;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem;
+  cursor: pointer;
+  background: #10aa50;
+  color: white;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #0e8f45;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 170, 80, 0.25);
+}
+
+.add-btn:active {
+  transform: translateY(0);
 }
 
 @media(max-width:768px) {

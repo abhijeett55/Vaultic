@@ -60,6 +60,12 @@
         </div>
 
         <button
+          class="add-btn"
+          (click)="addSpace()">
+          Add
+        </button>
+
+        <button
           class="delete-btn"
           (click)="deletePartition(i)">
           Delete
@@ -106,6 +112,8 @@
         type="text"
         placeholder="Total Size (5 GB)"
         [(ngModel)]="newPartitionSize">
+
+
 
       <button
         class="create-btn"

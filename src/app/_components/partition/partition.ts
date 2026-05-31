@@ -71,4 +71,8 @@ export class PartitionSpace {
   deletePartition(index: number) {
     this.partitions.splice(index, 1);
   }
+
+  addSpace() {
+    console.log('Added');
+  }
 }
