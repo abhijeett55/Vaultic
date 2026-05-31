@@ -18,7 +18,6 @@ export class PartitionSpace {
       icon: '📁',
       status: 'Healthy',
       usedSpace: '0 B',
-      totalSpace: '5 GB',
       fileCount: 0,
       percentage: 0
     },
@@ -27,7 +26,6 @@ export class PartitionSpace {
       icon: '💼',
       status: 'Healthy',
       usedSpace: '0 B',
-      totalSpace: '5 GB',
       fileCount: 0,
       percentage: 0
     }
@@ -38,7 +36,6 @@ export class PartitionSpace {
   newPartitionName = '';
   newPartitionIcon = '📁';
   newPartitionStatus = 'Healthy';
-  newPartitionSize = '5 GB';
 
   openPartitionForm() {
     this.showForm = !this.showForm;
@@ -55,7 +52,6 @@ export class PartitionSpace {
       icon: this.newPartitionIcon || '📁',
       status: this.newPartitionStatus,
       usedSpace: '0 B',
-      totalSpace: this.newPartitionSize,
       fileCount: 0,
       percentage: 0
     });
@@ -63,7 +59,6 @@ export class PartitionSpace {
     this.newPartitionName = '';
     this.newPartitionIcon = '📁';
     this.newPartitionStatus = 'Healthy';
-    this.newPartitionSize = '5 GB';
 
     this.showForm = false;
   }

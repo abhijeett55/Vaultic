@@ -3,7 +3,6 @@ export interface Partition {
   icon: string;
   status: string;
   usedSpace: string;
-  totalSpace: string;
   fileCount: number;
   percentage: number;
 }

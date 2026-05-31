@@ -39,9 +39,7 @@
 
             <span>
               {{ partition.usedSpace }}
-              of
-              {{ partition.totalSpace }}
-              used
+              
             </span>
 
             <span>
@@ -107,13 +105,6 @@
         <option>Warning</option>
         <option>Critical</option>
       </select>
-
-      <input
-        type="text"
-        placeholder="Total Size (5 GB)"
-        [(ngModel)]="newPartitionSize">
-
-
 
       <button
         class="create-btn"

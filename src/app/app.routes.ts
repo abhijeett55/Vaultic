@@ -4,7 +4,6 @@ import { Files } from './_components/files/files';
 import { Uploads } from './_components/uploads/uploads';
 import { Insights } from './_components/insights/insights';
 import { Docs } from './_components/docs/docs';
-import { AdminConsole } from './_components/admin-console/admin-console';
 import { Home } from './_components/home/home';
 import { Login } from './_components/login/login';
 import { Register } from './_components/register/register';
@@ -35,7 +34,6 @@ export const routes: Routes = [
     { path: 'login', component: Login },
     { path: 'register', component: Register },
     { path: 'home', component: Home },
-    { path: 'admin-console', component: AdminConsole },
     { path: '**', redirectTo: '' }
     
 ];
