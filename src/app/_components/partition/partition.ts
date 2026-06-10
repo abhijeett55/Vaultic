@@ -12,6 +12,8 @@ import { Partition } from '../../_environment/partition';
 })
 export class PartitionSpace {
 
+
+
   partitions: Partition[] = [
     {
       name: 'Personal',
@@ -37,6 +39,17 @@ export class PartitionSpace {
   newPartitionIcon = '📁';
   newPartitionStatus = 'Healthy';
 
+
+  ngOnInit() {
+
+    const saved =
+      localStorage.getItem('partitions');
+
+    if(saved){
+      this.partitions = JSON.parse(saved);
+    }
+  }
+
   openPartitionForm() {
     this.showForm = !this.showForm;
   }
@@ -59,6 +72,11 @@ export class PartitionSpace {
     this.newPartitionName = '';
     this.newPartitionIcon = '📁';
     this.newPartitionStatus = 'Healthy';
+
+    localStorage.setItem(
+      'partitions',
+      JSON.stringify(this.partitions)
+    );
 
     this.showForm = false;
   }
