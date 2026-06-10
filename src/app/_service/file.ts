@@ -25,6 +25,20 @@ export class FileService {
     });
   }
 
+  uploadPartition(file: string, tags: string, userId: string, partition: string) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("tags", tags || '');
+    formData.append("userId", userId);
+    formData.append("partition", partition);
+
+
+    return this.http.post(`${this.api}/upload`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+
   getFilesByUser(userId: string): Observable<FileMetaData[]> {
     return this.http.get<FileMetaData[]>(`${this.api}/user/${userId}`);
   }
