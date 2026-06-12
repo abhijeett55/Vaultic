@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Partition } from '../../_environment/partition';
 
@@ -10,11 +10,9 @@ import { Partition } from '../../_environment/partition';
   templateUrl: './partition.html',
   styleUrl: './partition.css'
 })
-export class PartitionSpace {
+export class PartitionSpace implements OnInit {
 
-
-
-  partitions: Partition[] = [
+    partitions: Partition[] = [
     {
       name: 'Personal',
       icon: '📁',
@@ -23,31 +21,37 @@ export class PartitionSpace {
       fileCount: 0,
       percentage: 0
     },
-    {
-      name: 'Work',
-      icon: '💼',
-      status: 'Healthy',
-      usedSpace: '0 B',
-      fileCount: 0,
-      percentage: 0
-    }
-  ];
+      {
+        name: 'Work',
+        icon: '💼',
+        status: 'Healthy',
+        usedSpace: '0 B',
+        fileCount: 0,
+        percentage: 0
+      }
+    ];
 
-  showForm = false;
+    showForm = false;
 
-  newPartitionName = '';
-  newPartitionIcon = '📁';
-  newPartitionStatus = 'Healthy';
+    newPartitionName = '';
+    newPartitionIcon = '📁';
+    newPartitionStatus = 'Healthy';
 
+
+  constructor( @Inject(PLATFORM_ID) private platformId: Object) {
+  }
 
   ngOnInit() {
 
-    const saved =
+    if(isPlatformBrowser(this.platformId)) {
+        const saved =
       localStorage.getItem('partitions');
 
-    if(saved){
-      this.partitions = JSON.parse(saved);
+      if(saved){
+          this.partitions = JSON.parse(saved);
+      }  
     }
+  
   }
 
   openPartitionForm() {
@@ -83,9 +87,13 @@ export class PartitionSpace {
 
   deletePartition(index: number) {
     this.partitions.splice(index, 1);
+
+    if(isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('partitions', JSON.stringify(this.partitions));
+    }
   }
 
   addSpace() {
-    console.log('Added');
+    console.log('Added Space');
   }
 }
