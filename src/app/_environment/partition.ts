@@ -1,8 +1,11 @@
 export interface Partition {
-  id?: string;
+  id?: number;
+  userId?: string;
+
   name: string;
   icon: string;
   status: string;
+  
   usedSpace: string;
   fileCount: number;
   percentage: number;

@@ -2,6 +2,8 @@ import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Partition } from '../../_environment/partition';
+import { AuthService } from '../../_service/auth.service';
+import { PartitionService } from '../../_service/partition.service';
 
 @Component({
   selector: 'app-partition',
@@ -38,59 +40,99 @@ export class PartitionSpace implements OnInit {
     newPartitionStatus = 'Healthy';
 
 
-  constructor( @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor( @Inject(PLATFORM_ID) private platformId: Object,
+    private partitionService: PartitionService,
+    private authService: AuthService
+    ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
 
-    if(isPlatformBrowser(this.platformId)) {
-        const saved =
-      localStorage.getItem('partitions');
+    const currentUser =
+      this.authService.getCurrentUser();
 
-      if(saved){
-          this.partitions = JSON.parse(saved);
-      }  
+    if (!currentUser?.id) {
+      return;
     }
-  
+
+    this.partitionService
+      .getPartitions(currentUser.id)
+      .subscribe({
+        next: (data) => {
+          this.partitions = data;
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
   }
 
+  
   openPartitionForm() {
     this.showForm = !this.showForm;
   }
 
-  addPartition() {
+  addPartition(): void {
 
-    if (!this.newPartitionName.trim()) {
+    const currentUser =
+      this.authService.getCurrentUser();
+
+    if (!currentUser?.id) {
       return;
     }
 
-    this.partitions.push({
+    const partition = {
+      userId: currentUser.id,
       name: this.newPartitionName,
-      icon: this.newPartitionIcon || '📁',
+      icon: this.newPartitionIcon,
       status: this.newPartitionStatus,
+
       usedSpace: '0 B',
       fileCount: 0,
       percentage: 0
-    });
 
-    this.newPartitionName = '';
-    this.newPartitionIcon = '📁';
-    this.newPartitionStatus = 'Healthy';
 
-    localStorage.setItem(
-      'partitions',
-      JSON.stringify(this.partitions)
-    );
+    };
 
-    this.showForm = false;
+    this.partitionService
+      .createPartition(partition)
+      .subscribe({
+        next: (savedPartition: Partition) => {
+
+          this.partitions.push(savedPartition);
+
+          this.newPartitionName = '';
+          this.newPartitionIcon = '📁';
+          this.newPartitionStatus = 'Healthy';
+          this.showForm = false;
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
   }
 
-  deletePartition(index: number) {
-    this.partitions.splice(index, 1);
+  deletePartition(partition: Partition): void {
 
-    if(isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('partitions', JSON.stringify(this.partitions));
+    if (!partition.id) {
+      return;
     }
+
+    this.partitionService
+      .deletePartition(partition.id)
+      .subscribe({
+        next: () => {
+
+          this.partitions =
+            this.partitions.filter(
+              p => p.id !== partition.id
+            );
+
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
   }
 
   addSpace() {
