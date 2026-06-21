@@ -37,9 +37,8 @@
 
           <div class="usage-info">
 
-            <span>
-              {{ partition.usedSpace }}
-              
+            <span class="usage-value">
+              {{ formatBytes(partition.usedSpace) }}
             </span>
 
             <span>
@@ -59,7 +58,7 @@
 
         <button
           class="add-btn"
-          (click)="addSpace()">
+          (click)="deletePartition(partition)">
           Add
         </button>
 

@@ -1,5 +1,5 @@
-import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Partition } from '../../_environment/partition';
 import { AuthService } from '../../_service/auth.service';
@@ -14,37 +14,18 @@ import { PartitionService } from '../../_service/partition.service';
 })
 export class PartitionSpace implements OnInit {
 
-    partitions: Partition[] = [
-    {
-      name: 'Personal',
-      icon: '📁',
-      status: 'Healthy',
-      usedSpace: '0 B',
-      fileCount: 0,
-      percentage: 0
-    },
-      {
-        name: 'Work',
-        icon: '💼',
-        status: 'Healthy',
-        usedSpace: '0 B',
-        fileCount: 0,
-        percentage: 0
-      }
-    ];
+  partitions: Partition[] = [];
 
-    showForm = false;
+  showForm = false;
 
-    newPartitionName = '';
-    newPartitionIcon = '📁';
-    newPartitionStatus = 'Healthy';
+  newPartitionName = '';
+  newPartitionIcon = '📁';
+  newPartitionStatus = 'Healthy';
 
-
-  constructor( @Inject(PLATFORM_ID) private platformId: Object,
+  constructor(
     private partitionService: PartitionService,
     private authService: AuthService
-    ) {
-  }
+  ) {}
 
   ngOnInit(): void {
 
@@ -58,18 +39,59 @@ export class PartitionSpace implements OnInit {
     this.partitionService
       .getPartitions(currentUser.id)
       .subscribe({
-        next: (data) => {
+
+        next: (data: Partition[]) => {
+
           this.partitions = data;
+
         },
+
         error: (err) => {
+
           console.error(err);
+
         }
+
       });
+
   }
 
-  
+  formatBytes(bytes: number = 0): string {
+
+    if (bytes === 0) {
+      return '0 B';
+    }
+
+    const k = 1024;
+
+    const sizes = [
+      'B',
+      'KB',
+      'MB',
+      'GB',
+      'TB'
+    ];
+
+    const i =
+      Math.floor(
+        Math.log(bytes) / Math.log(k)
+      );
+
+    return (
+      parseFloat(
+        (bytes / Math.pow(k, i))
+        .toFixed(2)
+      )
+      + ' '
+      + sizes[i]
+    );
+
+  }
+
   openPartitionForm() {
+
     this.showForm = !this.showForm;
+
   }
 
   addPartition(): void {
@@ -78,49 +100,75 @@ export class PartitionSpace implements OnInit {
       this.authService.getCurrentUser();
 
     if (!currentUser?.id) {
+
       return;
+
     }
 
-    const partition = {
+    if (!this.newPartitionName.trim()) {
+
+      return;
+
+    }
+
+    const partition: Partition = {
+
       userId: currentUser.id,
+
       name: this.newPartitionName,
+
       icon: this.newPartitionIcon,
+
       status: this.newPartitionStatus,
 
-      usedSpace: '0 B',
-      fileCount: 0,
-      percentage: 0
+      usedSpace: 0,
 
+      fileCount: 0,
+
+      percentage: 0
 
     };
 
     this.partitionService
       .createPartition(partition)
       .subscribe({
+
         next: (savedPartition: Partition) => {
 
           this.partitions.push(savedPartition);
 
           this.newPartitionName = '';
+
           this.newPartitionIcon = '📁';
+
           this.newPartitionStatus = 'Healthy';
+
           this.showForm = false;
+
         },
+
         error: (err) => {
+
           console.error(err);
+
         }
+
       });
+
   }
 
   deletePartition(partition: Partition): void {
 
     if (!partition.id) {
+
       return;
+
     }
 
     this.partitionService
       .deletePartition(partition.id)
       .subscribe({
+
         next: () => {
 
           this.partitions =
@@ -129,13 +177,15 @@ export class PartitionSpace implements OnInit {
             );
 
         },
+
         error: (err) => {
+
           console.error(err);
+
         }
+
       });
+
   }
 
-  addSpace() {
-    console.log('Added Space');
-  }
 }

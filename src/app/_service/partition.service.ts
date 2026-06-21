@@ -6,6 +6,7 @@ import { Partition } from '../_environment/partition';
 @Injectable({
   providedIn: 'root',
 })
+
 export class PartitionService {
 
   private api = 'http://localhost:8080/api/partitions';
