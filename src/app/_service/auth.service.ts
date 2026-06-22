@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { User } from '../_environment/user';
 import { jwtDecode } from 'jwt-decode';
 import { AuthResponse } from '../_environment/authResponse';
+import { environment } from '../_environment/environment';
+
 
 
 @Injectable({
@@ -14,7 +16,7 @@ import { AuthResponse } from '../_environment/authResponse';
 
 export class AuthService {
   
-  private apiUrl = 'http://localhost:8081/api/auth';
+  private apiUrl = environment.apiUrl;
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);
 
