@@ -1,5 +1,5 @@
 
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8081/api/auth'
+  production: true,
+  apiUrl: 'https://manualbalanceddbbackend-auth.onrender.com'
 };
