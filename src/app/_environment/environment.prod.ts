@@ -1,5 +1,5 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'https://manualbalanceddbbackend-auth.onrender.com'
+  apiUrl: 'https://vaulticbackend-auth.onrender.com'
 };
