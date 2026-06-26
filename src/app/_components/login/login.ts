@@ -23,12 +23,13 @@ export class Login {
     const { email , password} = form.value;
     this.authService.login(email, password).subscribe({
       next: (res) => {
+      alert('✅ Login successful!');
       console.log('Login success');
       this.authService.saveUserData(res.token, res.user);
       this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-      console.error('Login failed', err);
+      alert(err.error?.message || '❌ Invalid email or password');
       }
     });
   }
