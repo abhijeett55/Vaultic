@@ -33,12 +33,11 @@ export class Register {
 
     this.authService.register(name, email, password, createdDate).subscribe({
       next: (res) => {
-        console.log('Registration success', res);
+        alert('✅ Register successful!');
         this.authService.saveUserData(res.token , res.user);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        console.error('Registration failed', err);
         alert(err.error?.message || "Registration failed");
       }
     });
